@@ -1,0 +1,17 @@
+{
+  "name": "@spike/client",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler pages dev public",
+    "deploy": "wrangler pages deploy",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@spike/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260515.1",
+    "wrangler": "^4.91.0"
+  }
+}

@@ -1,0 +1,15 @@
+name = "cloudflare-spike-queues"
+main = "src/index.ts"
+compatibility_date = "2026-05-15"
+
+[[queues.producers]]
+binding = "QUEUE"
+queue = "spike-queues"
+
+[[queues.consumers]]
+queue = "spike-queues"
+max_batch_size = 10
+max_batch_timeout = 5
+
+[vars]
+VERSION = "dev"

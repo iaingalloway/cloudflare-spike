@@ -1,0 +1,6 @@
+node_modules
+.pnpm-store
+pnpm-lock.yaml
+
+# Prettier cannot independently disable table formatting, so markdown is excluded entirely
+**/*.md

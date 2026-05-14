@@ -1,0 +1,11 @@
+name = "cloudflare-spike-workflows"
+main = "src/index.ts"
+compatibility_date = "2026-05-15"
+
+[[workflows]]
+name = "spike-workflow"
+binding = "WORKFLOW"
+class_name = "SpikeWorkflow"
+
+[vars]
+VERSION = "dev"

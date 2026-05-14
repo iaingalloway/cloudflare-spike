@@ -1,0 +1,10 @@
+name = "cloudflare-spike-client"
+pages_build_output_dir = "public"
+compatibility_date = "2026-05-15"
+
+[vars]
+VERSION = "dev"
+
+[[kv_namespaces]]
+binding = "KV"
+id = "2853921ca3614f8ca884828117c81d40"

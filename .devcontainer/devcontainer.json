@@ -1,0 +1,8 @@
+{
+  "name": "cloudflare-spike-devcontainer",
+  "image": "ghcr.io/iaingalloway/devcontainers/javascript:1.5.44",
+  "remoteEnv": {
+    "HOST_WORKSPACE_PATH": "${localWorkspaceFolder}"
+  },
+  "runArgs": ["--name", "cloudflare-spike-devcontainer", "--network=host"]
+}

@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>cloudflare-spike</title>
+    <style>
+      body {
+        font-family: monospace;
+        padding: 2rem;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 1.2rem;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 0.4rem 0.6rem;
+        border: 1px solid #ccc;
+        vertical-align: top;
+      }
+      th {
+        background: #f0f0f0;
+      }
+      .status-loading {
+        color: #999;
+      }
+      .status-ok {
+        color: #080;
+      }
+      .status-err {
+        color: #c00;
+      }
+      pre {
+        margin: 0;
+        white-space: pre-wrap;
+        word-break: break-all;
+        font-size: 0.85rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>cloudflare-spike</h1>
+    <p>
+      Fetching all endpoints on load. Results appear as each request completes.
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Endpoint</th>
+          <th>Status</th>
+          <th>Response</th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <script>
+      const BASE = "iain-galloway.workers.dev";
+      const endpoints = [
+        { name: "Pages Function /api/", url: "/api/" },
+        { name: "Worker (baseline)", url: `https://cloudflare-spike.${BASE}/` },
+        { name: "Worker DO", url: `https://cloudflare-spike-do.${BASE}/` },
+        { name: "Worker KV", url: `https://cloudflare-spike-kv.${BASE}/` },
+        { name: "Worker D1", url: `https://cloudflare-spike-d1.${BASE}/` },
+        {
+          name: "Worker Cache",
+          url: `https://cloudflare-spike-cache.${BASE}/`
+        },
+        {
+          name: "Worker Queues",
+          url: `https://cloudflare-spike-queues.${BASE}/`
+        },
+        {
+          name: "Worker Workflows",
+          url: `https://cloudflare-spike-workflows.${BASE}/`
+        }
+      ];
+
+      const tbody = document.getElementById("rows");
+
+      for (const { name, url } of endpoints) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td><a href="${url}" target="_blank">${name}</a></td>
+          <td class="status-loading" id="s-${name}">loading...</td>
+          <td><pre id="r-${name}"></pre></td>
+        `;
+        tbody.appendChild(tr);
+
+        fetch(url)
+          .then(async (res) => {
+            const statusEl = document.getElementById(`s-${name}`);
+            const responseEl = document.getElementById(`r-${name}`);
+            statusEl.textContent = `${res.status} ${res.statusText}`;
+            statusEl.className = res.ok ? "status-ok" : "status-err";
+            const text = await res.text();
+            try {
+              responseEl.textContent = JSON.stringify(
+                JSON.parse(text),
+                null,
+                2
+              );
+            } catch {
+              responseEl.textContent = text;
+            }
+          })
+          .catch((err) => {
+            const statusEl = document.getElementById(`s-${name}`);
+            statusEl.textContent = `error: ${err.message}`;
+            statusEl.className = "status-err";
+          });
+      }
+    </script>
+  </body>
+</html>

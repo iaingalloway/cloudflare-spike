@@ -1,0 +1,9 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# wrangler local state
+.wrangler/
+
+# secrets
+.local.env

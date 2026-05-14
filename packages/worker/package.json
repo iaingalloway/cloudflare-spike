@@ -1,0 +1,17 @@
+{
+  "name": "@spike/worker",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy --var VERSION:${DEPLOY_VERSION:-$(git describe --tags --always --dirty)}",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@spike/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260515.1",
+    "wrangler": "^4.91.0"
+  }
+}

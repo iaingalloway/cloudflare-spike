@@ -1,0 +1,11 @@
+name = "cloudflare-spike-d1"
+main = "src/index.ts"
+compatibility_date = "2026-05-15"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "spike-d1"
+database_id = "a88fcdca-0b89-48b0-b67b-590fb3a28619"
+
+[vars]
+VERSION = "dev"
