@@ -60,7 +60,7 @@ Yes.
 
 `just dev` runs the whole stack locally via `pnpm -r --include-workspace-root --parallel run --if-present dev`. Each Worker and Pages Function runs in its own process, with its own unique HTTP port and inspector port. It's important to note the `--parallel` flag.
 
-On Cloudflare, the workers are accessed by path. These paths are not yet routable locally.
+On Cloudflare, the workers are accessed by path. These paths are not routable locally. This could be fixed with a conditional for local developemnt (and CORS), with a reverse proxy, or by using a service binding and calling the Workers via a Function. For simplicity, this is left non-functional locally here.
 
 ### 5. Wrangler config shape
 
