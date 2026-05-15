@@ -1,6 +1,8 @@
 name = "cloudflare-spike-workflows"
 main = "src/index.ts"
 compatibility_date = "2026-05-15"
+workers_dev = true
+preview_urls = true
 
 [[workflows]]
 name = "spike-workflow"
@@ -9,3 +11,7 @@ class_name = "SpikeWorkflow"
 
 [vars]
 VERSION = "dev"
+
+[[routes]]
+pattern = "cloudflare-spike.iaingalloway.com/workflows*"
+zone_name = "iaingalloway.com"

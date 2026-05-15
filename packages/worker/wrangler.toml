@@ -1,6 +1,12 @@
 name = "cloudflare-spike"
 main = "src/index.ts"
 compatibility_date = "2026-05-15"
+workers_dev = true
+preview_urls = true
 
 [vars]
 VERSION = "dev"
+
+[[routes]]
+pattern = "cloudflare-spike.iaingalloway.com/worker*"
+zone_name = "iaingalloway.com"

@@ -1,6 +1,8 @@
 name = "cloudflare-spike-queues"
 main = "src/index.ts"
 compatibility_date = "2026-05-15"
+workers_dev = true
+preview_urls = true
 
 [[queues.producers]]
 binding = "QUEUE"
@@ -13,3 +15,7 @@ max_batch_timeout = 5
 
 [vars]
 VERSION = "dev"
+
+[[routes]]
+pattern = "cloudflare-spike.iaingalloway.com/queues*"
+zone_name = "iaingalloway.com"

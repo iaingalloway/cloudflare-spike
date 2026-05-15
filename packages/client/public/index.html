@@ -62,25 +62,15 @@
       <tbody id="rows"></tbody>
     </table>
     <script>
-      const BASE = "iain-galloway.workers.dev";
       const endpoints = [
         { name: "Pages Function /api/", url: "/api/" },
-        { name: "Worker (baseline)", url: `https://cloudflare-spike.${BASE}/` },
-        { name: "Worker DO", url: `https://cloudflare-spike-do.${BASE}/` },
-        { name: "Worker KV", url: `https://cloudflare-spike-kv.${BASE}/` },
-        { name: "Worker D1", url: `https://cloudflare-spike-d1.${BASE}/` },
-        {
-          name: "Worker Cache",
-          url: `https://cloudflare-spike-cache.${BASE}/`
-        },
-        {
-          name: "Worker Queues",
-          url: `https://cloudflare-spike-queues.${BASE}/`
-        },
-        {
-          name: "Worker Workflows",
-          url: `https://cloudflare-spike-workflows.${BASE}/`
-        }
+        { name: "Worker (baseline)", url: "/worker" },
+        { name: "Worker DO", url: "/do" },
+        { name: "Worker KV", url: "/kv" },
+        { name: "Worker D1", url: "/d1" },
+        { name: "Worker Cache", url: "/cache" },
+        { name: "Worker Queues", url: "/queues" },
+        { name: "Worker Workflows", url: "/workflows" }
       ];
 
       const tbody = document.getElementById("rows");

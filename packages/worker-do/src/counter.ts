@@ -1,7 +1,5 @@
 import { DurableObject } from "cloudflare:workers";
 
-const CORS = { headers: { "Access-Control-Allow-Origin": "*" } };
-
 export class Counter extends DurableObject {
   async fetch(request: Request): Promise<Response> {
     this.ctx.storage.sql.exec(
@@ -20,9 +18,9 @@ export class Counter extends DurableObject {
         "INSERT OR REPLACE INTO counter (id, count) VALUES (1, ?)",
         next
       );
-      return Response.json({ count: next }, CORS);
+      return Response.json({ count: next });
     }
 
-    return Response.json({ count: current }, CORS);
+    return Response.json({ count: current });
   }
 }

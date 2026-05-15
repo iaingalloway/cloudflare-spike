@@ -1,6 +1,8 @@
 name = "cloudflare-spike-kv"
 main = "src/index.ts"
 compatibility_date = "2026-05-15"
+workers_dev = true
+preview_urls = true
 
 [[kv_namespaces]]
 binding = "KV"
@@ -8,3 +10,7 @@ id = "2853921ca3614f8ca884828117c81d40"
 
 [vars]
 VERSION = "dev"
+
+[[routes]]
+pattern = "cloudflare-spike.iaingalloway.com/kv*"
+zone_name = "iaingalloway.com"

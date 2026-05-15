@@ -167,11 +167,9 @@ For GHA, the token is stored as a repository secret named `CLOUDFLARE_API_TOKEN`
 
 > Does the spike use `*.pages.dev` + `*.workers.dev` (requiring CORS on the Worker), or both behind a custom domain via routes? Which approach does robot-arena inherit?
 
-The spike uses `cloudflare-spike-client.pages.dev` for the client and `*.iain-galloway.workers.dev` for each Worker. The static HTML page fetches from worker URLs directly in the browser, which requires CORS. All workers have `Access-Control-Allow-Origin: *` added to every `Response.json()` call.
+The spike uses a custom domain with both the Pages site and all Workers served under the same origin. The client fetches worker endpoints from the same domain, so no CORS headers are required. No `Access-Control-Allow-Origin` headers are set on any worker.
 
-CORS is not needed for server-side calls: the Pages Function at `/api/` fetches nothing - it reads KV via binding and calls `greet()` locally. Server-side Worker-to-Worker calls via Service Bindings also do not require CORS.
-
-**Recommendation for robot-arena:** route all client API calls through Pages Functions (server-side), not directly to workers. This avoids CORS entirely and keeps Worker URLs internal. If a custom domain is later added, both the Pages site and the Worker can share the same domain (e.g. `robot-arena.com` for Pages, `robot-arena.com/api/*` routed to a Worker), which also eliminates CORS.
+For robot-arena, the same pattern applies: route both the Pages site and Workers under a single custom domain. CORS is not needed when all client API calls originate from the same origin.
 
 ### 10. Cost guardrails
 
@@ -181,11 +179,10 @@ Cloudflare does not offer a billing alert or spend cap on the Workers Free plan.
 
 ## Definition of done
 
-- [x] `packages/client` deployed to Cloudflare Pages and publicly accessible - https://cloudflare-spike-client.pages.dev
-- [x] `packages/worker` deployed as a standalone Cloudflare Worker and callable
-- [x] Pages Function (`functions/api/index.ts`) deployed and callable, returning the same shape as the Worker's `/`
-- [x] All storage endpoints (`/do`, `/kv`, `/d1`, `/cache`, Queues, Workflows) deployed and proven to work (R2 skipped - see Q1)
-- [x] DO visit counter increments across requests
+- [x] `packages/client` [deployed to Cloudflare Pages](https://cloudflare-spike-client.pages.dev) and publicly accessible
+- [x] Workers deployed and callable
+- [x] Pages Function (`functions/api/index.ts`) deployed and callable, returning the same shape as the Worker's
+- [x] All storage primitives deployed and proven to work (R2 skipped - see Q1)
 - [x] `packages/shared` consumed by **both** the Worker and the Pages Function - confirmed by `greet()` output in both responses
 - [ ] `just install && just dev` starts the full local stack (client + Worker + Pages Function + all bindings) in the devcontainer
 - [x] GHA workflow deploys on push to `main`

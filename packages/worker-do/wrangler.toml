@@ -1,6 +1,8 @@
 name = "cloudflare-spike-do"
 main = "src/index.ts"
 compatibility_date = "2026-05-15"
+workers_dev = true
+preview_urls = true
 
 [[durable_objects.bindings]]
 name = "COUNTER"
@@ -12,3 +14,7 @@ new_sqlite_classes = ["Counter"]
 
 [vars]
 VERSION = "dev"
+
+[[routes]]
+pattern = "cloudflare-spike.iaingalloway.com/do*"
+zone_name = "iaingalloway.com"

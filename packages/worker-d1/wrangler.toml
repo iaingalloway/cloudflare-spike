@@ -1,6 +1,8 @@
 name = "cloudflare-spike-d1"
 main = "src/index.ts"
 compatibility_date = "2026-05-15"
+workers_dev = true
+preview_urls = true
 
 [[d1_databases]]
 binding = "DB"
@@ -9,3 +11,7 @@ database_id = "a88fcdca-0b89-48b0-b67b-590fb3a28619"
 
 [vars]
 VERSION = "dev"
+
+[[routes]]
+pattern = "cloudflare-spike.iaingalloway.com/d1*"
+zone_name = "iaingalloway.com"
