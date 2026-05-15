@@ -4,6 +4,10 @@ compatibility_date = "2026-05-15"
 workers_dev = true
 preview_urls = true
 
+[dev]
+port = 8790
+inspector_port = 9233
+
 [[d1_databases]]
 binding = "DB"
 database_name = "spike-d1"

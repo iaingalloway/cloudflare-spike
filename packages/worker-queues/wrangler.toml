@@ -4,6 +4,10 @@ compatibility_date = "2026-05-15"
 workers_dev = true
 preview_urls = true
 
+[dev]
+port = 8793
+inspector_port = 9236
+
 [[queues.producers]]
 binding = "QUEUE"
 queue = "spike-queues"

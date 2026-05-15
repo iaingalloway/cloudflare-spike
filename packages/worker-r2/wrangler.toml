@@ -2,5 +2,9 @@ name = "cloudflare-spike-r2"
 main = "src/index.ts"
 compatibility_date = "2026-05-15"
 
+[dev]
+port = 8794
+inspector_port = 9237
+
 [vars]
 VERSION = "dev"

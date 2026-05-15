@@ -58,14 +58,9 @@ Yes.
 
 > How do you run the client, Worker, Pages Function, and all storage bindings together locally in the devcontainer with hot reload? What commands, what ports, and does the client actually call the local Worker (not the deployed one)?
 
-`just dev` runs `pnpm -r --include-workspace-root run --if-present dev` recursively. Each package's `dev` script is `wrangler dev` (Workers) or `wrangler pages dev public` (client). Running them all simultaneously causes a port conflict on 8976 (wrangler's internal RPC port). Two `wrangler dev` processes cannot share the same port.
+`just dev` runs the whole stack locally via `pnpm -r --include-workspace-root --parallel run --if-present dev`. Each Worker and Pages Function runs in its own process, with its own unique HTTP port and inspector port. It's important to note the `--parallel` flag.
 
-The local dev story for this spike is: run one package at a time (`pnpm --filter @spike/worker run dev`). Full-stack local dev with all bindings would require either:
-
-- Port assignment per Worker via `wrangler dev --port <n>`, and a local Pages dev server pointing at local Worker URLs, or
-- Wrangler's `--remote` flag to use real Cloudflare resources for bindings while running the Worker logic locally
-
-Neither is configured in this spike. `just dev` is broken for multi-package use as-is. This is a known limitation for robot-arena to resolve before starting local development.
+On Cloudflare, the workers are accessed by path. These paths are not yet routable locally.
 
 ### 5. Wrangler config shape
 
@@ -137,7 +132,7 @@ The Workers free plan has quotas that limit spending to zero, so no billing aler
 - [x] Pages Function (`functions/api/index.ts`) deployed and callable, returning the same shape as the Worker's
 - [x] All storage primitives deployed and proven to work (R2 skipped - see Q1)
 - [x] `packages/shared` consumed by **both** the Worker and the Pages Function - confirmed by `greet()` output in both responses
-- [ ] `just install && just dev` starts the full local stack (client + Worker + Pages Function + all bindings) in the devcontainer
+- [x] `just install && just dev` starts the full local stack (client + Worker + Pages Function + all bindings) in the devcontainer
 - [x] GHA workflow deploys on push to `main`
 - [x] Confirmed that billing alerts are not possible on the free tier
 - [x] README contains a clear written answer to all 10 questions above, including the storage matrix

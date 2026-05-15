@@ -6,7 +6,7 @@ default: check
 
 # Start the Worker in local dev mode
 dev:
-  pnpm -r --include-workspace-root run --if-present dev
+  pnpm -r --include-workspace-root --parallel run --if-present dev
 
 # Deploy all workers (requires CLOUDFLARE_API_TOKEN + CLOUDFLARE_ACCOUNT_ID)
 deploy:

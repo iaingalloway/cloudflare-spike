@@ -4,6 +4,10 @@ compatibility_date = "2026-05-15"
 workers_dev = true
 preview_urls = true
 
+[dev]
+port = 8791
+inspector_port = 9234
+
 [[durable_objects.bindings]]
 name = "COUNTER"
 class_name = "Counter"

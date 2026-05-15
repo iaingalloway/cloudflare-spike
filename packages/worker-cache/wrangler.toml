@@ -4,6 +4,10 @@ compatibility_date = "2026-05-15"
 workers_dev = true
 preview_urls = true
 
+[dev]
+port = 8789
+inspector_port = 9232
+
 [vars]
 VERSION = "dev"
 

@@ -2,6 +2,10 @@ name = "cloudflare-spike-client"
 pages_build_output_dir = "public"
 compatibility_date = "2026-05-15"
 
+[dev]
+port = 8787
+inspector_port = 9230
+
 [vars]
 VERSION = "dev"
 
