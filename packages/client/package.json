@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "wrangler pages dev public",
-    "deploy": "wrangler pages deploy",
+    "deploy": "wrangler pages deploy --commit-hash $(git describe --tags --always --dirty)",
     "check": "tsc --noEmit"
   },
   "dependencies": {
