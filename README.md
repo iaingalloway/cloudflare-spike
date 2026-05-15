@@ -131,7 +131,22 @@ Pages: same `wrangler.toml` syntax. Add `pages_build_output_dir = "public"` to p
 
 > Confirm `wrangler secret put` works and that GHA can set secrets non-interactively. Even though the spike has no secrets, robot-arena will.
 
-TODO
+Confirmed working in at path `/secret` on the core worker.
+
+Set it interactively:
+
+```bash
+wrangler secret put TEST_SECRET
+# prompts: Enter a secret value: ****
+```
+
+Or non-interactively (e.g. in GHA)
+
+```bash
+echo "$SECRET_VALUE" | wrangler secret put TEST_SECRET
+```
+
+Cloudflare's access control is entirely binding-based, so no runtime credentials are required for Cloudflare-native primitives (D1, KV, DO, Queues, Workflows).
 
 ### 7. GHA → Cloudflare auth
 
@@ -187,5 +202,5 @@ Cloudflare does not offer a billing alert or spend cap on the Workers Free plan.
 - [ ] `just install && just dev` starts the full local stack (client + Worker + Pages Function + all bindings) in the devcontainer
 - [x] GHA workflow deploys on push to `main`
 - [x] Confirmed that billing alerts are not possible on the free tier
-- [ ] README contains a clear written answer to all 10 questions above, including the storage matrix
+- [x] README contains a clear written answer to all 10 questions above, including the storage matrix
 - [ ] Repo archived on completion
