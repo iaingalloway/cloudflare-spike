@@ -31,22 +31,31 @@ Cache API | Yes | Cache is per-datacenter (not global KV) | Not suitable for sha
 Queues | Yes | 10,000 ops/day (one message delivery = 3 ops: write + read + delete, so ~3,300 messages/day), 24h retention | Viable for async jobs at low volume
 Workflows | Yes | Counts against Workers quota, 3 days retention | Viable for durable multi-step async processing
 
-### 2. Worker vs Pages Functions
+### 2. Workers vs Pages
 
-> Which should I use, and why? Compare on: `wrangler.toml` shape, DO/KV/D1/R2 binding ergonomics, local dev story, deploy story, observability (`wrangler tail`), and custom domain routing.
+> Which should I use, and why?
 
-Dimension | Standalone Worker | Pages Function
+Dimension | Standalone Worker | Pages
 --- | --- | ---
-`wrangler.toml` shape | `name`, `main`, `compatibility_date`, top-level `[[kv_namespaces]]` etc. | Same syntax; add `pages_build_output_dir`. Bindings declared identically.
-Binding ergonomics | `env.KV`, `env.DB`, etc. typed via `Env` interface | `context.env.KV`, `context.env.DB` etc. via `PagesFunction<Env>` - one extra level of indirection through `context`
-Deploy | `wrangler deploy` | `wrangler pages deploy` (project must be pre-created)
-DO hosting | Workers export DO classes - the DO namespace is bound to the Worker that declares the class | Pages Functions can hold a DO binding and call into the DO, but cannot own the namespace.
+Static assets | `assets.directory` and `.binding` | Native
+Compute | Native | Pages Functions
+Deploy | `wrangler deploy` | `wrangler pages deploy` or direct from Git (project must be pre-created)
+Environment via `wrangler.toml` | Yes | Yes
+Environment via secrets | Yes | Yes
+Environment via `wrangler deploy --var` | Yes | No
 D1, KV, R2, Queues, Workflows | Fully supported via bindings | Fully supported via bindings
-Observability | `wrangler tail <name>` | `wrangler pages deployment tail <project>` - same data, different command
+DO | Workers export DO classes | Pages Functions can hold a DO binding but cannot own the namespace
+Observability | `wrangler tail <name>` | `wrangler pages deployment tail <project>`
 
 A standalone Worker is required only if DO classes are used. If the architecture does not use DOs, all storage primitives (D1, KV, R2, Queues, Workflows) bind equally well to Pages Functions, and Pages alone may be sufficient.
 
-**Deployment operations note:** Pages has a native GitHub integration. If an application's entire backend is in Pages Functions, no GHA workflow is required.
+Workers can serve static files alongside dynamic handlers. Static asset requests are not counted against the 100K/day quota. This means that also Workers alone may be sufficient.
+
+Key differences:
+
+- Pages Functions can be deployed directly from Git without a build server
+- Workers can have environment variables set by `wrangler deploy` at deploy time, Pages Functions need to have all environment variables available at compile time - realistically by checking them into the repo - or by binding to a secrets provider and looking them up at runtime
+- Only Workers can own DO namespaces
 
 ### 3. pnpm workspaces + Wrangler bundling
 
